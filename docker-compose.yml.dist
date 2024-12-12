@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 
+      POSTGRES_DB: runehook-db
     ports:
       - "5433:5432"
     volumes:
@@ -26,29 +26,32 @@ services:
       context: .
       dockerfile: ./runehook.dockerfile
     command:
-      ["runehook", "service", "start", "--config-path", "/config/Runehook.toml"]
+      ["service", "start", "--config-path", "/config/Runehook.toml"]
     volumes:
       - ./config:/config
     depends_on:
       - db
     networks:
+      - bitcoin-net
       - app-network
 
-  runes-api:
-    build:
-      context: .
-      dockerfile: ./runes-api.dockerfile
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
-    depends_on:
-      - db
-      - runehook
-    ports:
-      - "3037:3000"
-    networks:
-      - app-network
+#  runes-api:
+#    build:
+#      context: .
+#      dockerfile: ./runes-api.dockerfile
+#    environment:
+#      - DATABASE_URL=postgres://admin:PASSWORD@db:5432/runehook-db
+#    depends_on:
+#      - db
+#      - runehook
+#    ports:
+#      - "3037:3000"
+#    networks:
+#      - app-network
 
 networks:
+  bitcoin-net:
+    external: true
   app-network:
 
 volumes:
