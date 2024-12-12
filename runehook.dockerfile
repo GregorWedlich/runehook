@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y ca-certificates pkg-config libssl-dev libclang-11-dev libunwind-dev libunwind8 curl gnupg
 RUN rustup update 1.77.1 && rustup default 1.77.1
 
-RUN ./mkdir /out
+RUN mkdir /out
 COPY ./Cargo.toml /app/Cargo.toml 
 COPY ./Cargo.lock /app/Cargo.lock 
 COPY ./src /app/src 
