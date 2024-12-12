@@ -7,10 +7,10 @@ port = 5432
 
 [network]
 bitcoin_network = "mainnet"
-bitcoind_rpc_url = "http://bitcoind:8332"
-bitcoind_rpc_username = "user"
-bitcoind_rpc_password = "pass"
-bitcoind_zmq_url = "tcp://bitcoind:18543"
+bitcoind_rpc_url = "http://127.0.0.1:8332"
+bitcoind_rpc_username = "admin"
+bitcoind_rpc_password = ""
+bitcoind_zmq_url = "tcp://127.0.0.1:18543"
 
 [resources]
 lru_cache_size = 50000
