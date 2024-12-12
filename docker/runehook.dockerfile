@@ -6,10 +6,10 @@ RUN apt-get update && apt-get install -y ca-certificates pkg-config libssl-dev l
 RUN rustup update 1.77.1 && rustup default 1.77.1
 
 RUN mkdir /out
-COPY ./Cargo.toml /app/Cargo.toml
-COPY ./Cargo.lock /app/Cargo.lock
-COPY ./src /app/src
-COPY ./migrations /app/migrations
+COPY ../Cargo.toml /app/Cargo.toml 
+COPY ../Cargo.lock /app/Cargo.lock 
+COPY ../src /app/src 
+COPY ../migrations /app/migrations
 
 RUN cargo build --features release --release
 RUN cp /app/target/release/runehook /out

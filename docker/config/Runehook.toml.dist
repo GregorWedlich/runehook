@@ -1,0 +1,20 @@
+[postgres]
+username = "postgres"
+password = "postgres"
+database = "postgres"
+host = "db"
+port = 5432
+
+[network]
+bitcoin_network = "mainnet"
+bitcoind_rpc_url = "http://bitcoind:8332"
+bitcoind_rpc_username = "user"
+bitcoind_rpc_password = "pass"
+bitcoind_zmq_url = "tcp://bitcoind:18543"
+
+[resources]
+lru_cache_size = 50000
+
+[logs]
+runes_internals = true
+chainhook_internals = false

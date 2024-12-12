@@ -1,3 +1,6 @@
 /target
 Runehook.toml
 .DS_Store
+
+# Docker
+docker-compose.yml
