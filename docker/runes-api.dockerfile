@@ -11,4 +11,4 @@ RUN npm ci --no-audit && \
     npm prune --production
 RUN apk del .build-deps
 
-CMD ["node", "./dist/src/index.js"]
+CMD ["sh", "-c", "if [ ! -f .git-info ]; then echo 'Skipping git info generation'; else node ./dist/src/index.js; fi"]
