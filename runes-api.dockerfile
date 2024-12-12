@@ -1,8 +1,8 @@
 FROM node:20-alpine
 
 WORKDIR /app
-COPY ../api /app 
-COPY ../.git /.git
+COPY /api /app 
+COPY /.git /.git
 
 RUN apk add --no-cache --virtual .build-deps git
 RUN npm ci --no-audit && \

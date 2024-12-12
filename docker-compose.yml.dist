@@ -24,11 +24,11 @@ services:
   runehook:
     build:
       context: .
-      dockerfile: ./runehook.dockerfile # Ensure this path is correct
+      dockerfile: ./runehook.dockerfile
     command:
       ["runehook", "service", "start", "--config-path", "/config/Runehook.toml"]
     volumes:
-      - ./config:/config # Ensure this path is correct
+      - ./config:/config
     depends_on:
       - db
     networks:
@@ -37,7 +37,7 @@ services:
   runes-api:
     build:
       context: .
-      dockerfile: ./runes-api.dockerfile # Ensure this path is correct
+      dockerfile: ./runes-api.dockerfile
     environment:
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
     depends_on:
