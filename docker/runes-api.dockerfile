@@ -7,7 +7,7 @@ COPY .git /app/.git
 RUN apk add --no-cache --virtual .build-deps git
 RUN npm ci --no-audit && \
     npm run build && \
-    npm run generate:git-info && \
+    (npm run generate:git-info || echo 'Skipping git info generation') && \
     npm prune --production
 RUN apk del .build-deps
 
