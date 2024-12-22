@@ -64,6 +64,43 @@ pub async fn scan_blocks(
     Ok(())
 }
 
+pub async fn rescan_single_block(
+    block: u64,
+    config: &Config,
+    pg_client: &mut Client,
+    index_cache: &mut IndexCache,
+    ctx: &Context,
+) -> Result<(), String> {
+    let predicate = BitcoinChainhookSpecification {
+        uuid: "runehook-missing-block-rescan".to_string(),
+        owner_uuid: None,
+        name: "runehook-missing-block-rescan".to_string(),
+        network: config.event_observer.bitcoin_network.clone(),
+        version: 1,
+        blocks: Some(vec![block]),
+        start_block: None,
+        end_block: None,
+        expired_at: None,
+        expire_after_occurrence: None,
+        predicate: BitcoinPredicateType::Block,
+        action: chainhook_sdk::chainhooks::types::HookAction::Noop,
+        include_proof: false,
+        include_inputs: true,
+        include_outputs: false,
+        include_witness: false,
+        enabled: true,
+    };
+    scan_bitcoin_chainstate_via_rpc_using_predicate(
+        &predicate,
+        config,
+        None,
+        pg_client,
+        index_cache,
+        ctx,
+    ).await?;
+    Ok(())
+}
+
 pub async fn scan_bitcoin_chainstate_via_rpc_using_predicate(
     predicate_spec: &BitcoinChainhookSpecification,
     config: &Config,

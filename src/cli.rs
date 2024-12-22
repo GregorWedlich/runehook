@@ -82,6 +82,9 @@ enum ScanCommand {
     /// Run a scan
     #[clap(name = "start", bin_name = "start")]
     Start(StartScanCommand),
+    /// Rescan a single block
+    #[clap(name = "rescan", bin_name = "rescan")]
+    Rescan(RescanCommand),
 }
 
 #[derive(Parser, PartialEq, Clone, Debug)]
@@ -102,6 +105,14 @@ struct StartScanCommand {
     /// List of blocks (--blocks 767430,767431,767433,800000)
     #[clap(long = "blocks", conflicts_with = "interval")]
     pub blocks: Option<String>,
+}
+
+#[derive(Parser, PartialEq, Clone, Debug)]
+struct RescanCommand {
+    #[clap(long = "config-path")]
+    pub config_path: String,
+    #[clap(long = "block")]
+    pub block: u64,
 }
 
 #[derive(Parser, PartialEq, Clone, Debug)]
@@ -184,6 +195,12 @@ async fn handle_command(opts: Opts, ctx: Context) -> Result<(), String> {
             let mut pg_client = pg_connect(&config, true, &ctx).await;
             let mut index_cache = IndexCache::new(&config, &mut pg_client, &ctx).await;
             scan_blocks(blocks, &config, &mut pg_client, &mut index_cache, &ctx).await?;
+        }
+        Command::Scan(ScanCommand::Rescan(cmd)) => {
+            let config = Config::from_file_path(&cmd.config_path)?;
+            let mut pg_client = pg_connect(&config, true, &ctx).await;
+            let mut index_cache = IndexCache::new(&config, &mut pg_client, &ctx).await;
+            crate::scan::bitcoin::rescan_single_block(cmd.block, &config, &mut pg_client, &mut index_cache, &ctx).await?;
         }
         Command::Db(DbCommand::Drop(cmd)) => {
             let config = Config::from_file_path(&cmd.config_path)?;
