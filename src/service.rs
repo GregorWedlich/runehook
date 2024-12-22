@@ -49,7 +49,7 @@ pub async fn start_service(config: &Config, ctx: &Context) -> Result<(), String>
                 .await?;
             } else {
                 try_info!(ctx, "Caught up to bitcoind chain tip at {}", chain_tip);
-                break;
+                std::thread::sleep(std::time::Duration::from_secs(60));
             }
         }
     }
